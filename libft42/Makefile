@@ -65,7 +65,8 @@ SRC = ft_memset.c \
 		ft_factorial.c \
 		ft_isprime.c \
 		ft_itoa_base.c \
-		ft_nbrlen_base.c
+		ft_nbrlen_base.c \
+		get_next_line.c
 
 .PHONY: clean fclean all re
 

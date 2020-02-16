@@ -1,5 +1,4 @@
 #include "fdf.h"
-#include "libft42/libft.h"
 #include "stdlib.h"
 #include <unistd.h>
 
@@ -81,7 +80,7 @@ void	read_file(fdf *data, char *file_name)
 	data->z_matrix = (int **)malloc(sizeof(int*) * (data->height + 1));
 	i = 0;
 	while (i <= data->height)
-		data->z_matrix[i] = (int *)malloc(sizeof(int) * (data->width + 1));
+		data->z_matrix[i++] = (int *)malloc(sizeof(int) * (data->width + 1));
 	fd = open(file_name, O_RDONLY, 0);
 	i = 0;
 	while (get_next_line(fd, &line))

@@ -1,4 +1,4 @@
-#include "./get_next_line.h"
+#include "get_next_line.h"
 
 //append every (single) line into our "line"
 static	int	line_append(char **str, char **line)
