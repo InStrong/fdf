@@ -1,7 +1,14 @@
 #include "fdf.h"
+#include <math.h>
 
 #define MAX(a,b) (a > b ? a : b)
 #define ABS(a) (a < 0 ? -a : a)
+
+void	isometric(float *x, float *y, int z)
+{
+	*x = (*x - *y) * cos(0.8);
+	*y = (*x + *y) * sin(0.8) - z;
+}
 
 void	draw_bresenham(float x, float y, float x1, float y1, fdf *data)
 {
@@ -20,7 +27,17 @@ void	draw_bresenham(float x, float y, float x1, float y1, fdf *data)
 	y *= data->zoom;
 	y1 *= data->zoom;
 	//color 
-	data->color = (z) ? 0xe80c0c : 0xffffff;
+	data->color = (z || z1) ? 0xe80c0c : 0xffffff;
+	//isometric
+	isometric(&x, &y, z);
+	isometric(&x1, &y1, z1);
+
+	//shift
+	x += data->shift_x;
+	x1 += data->shift_x;
+	y += data->shift_y;
+	y1 += data->shift_y;
+
 	x_step = x1 - x;
 	y_step = y1 - y;
 	max = MAX(ABS(x_step),ABS(y_step));
