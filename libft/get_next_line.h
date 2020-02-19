@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sasajj <sasajj@student.21-school.ru>       +#+  +:+       +#+        */
+/*   By: cspider <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/08 22:04:07 by sasajj            #+#    #+#             */
-/*   Updated: 2020/02/17 21:04:40 by sasajj           ###   ########.fr       */
+/*   Created: 2019/09/06 14:18:39 by cspider           #+#    #+#             */
+/*   Updated: 2019/09/06 15:46:41 by cspider          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <sys/types.h>
 # include <sys/uio.h>
 # include <unistd.h>
-# include "libft.h"
+# include "libft/libft.h"
 
 int		get_next_line(const int fd, char **line);
 

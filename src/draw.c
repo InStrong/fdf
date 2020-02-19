@@ -1,5 +1,6 @@
 #include "fdf.h"
 #include <math.h>
+#include <stdio.h>
 
 #define MAX(a,b) (a > b ? a : b)
 #define ABS(a) (a < 0 ? -a : a)
@@ -32,11 +33,12 @@ void	draw_bresenham(float x, float y, float x1, float y1, fdf *data)
 	isometric(&x, &y, z);
 	isometric(&x1, &y1, z1);
 	//shift
+	printf("%d\n",data->shift_x);
+	printf("%d\n",data->shift_y);
 	x += data->shift_x;
 	x1 += data->shift_x;
 	y += data->shift_y;
 	y1 += data->shift_y;
-
 	x_step = x1 - x;
 	y_step = y1 - y;
 	max = MAX(ABS(x_step),ABS(y_step));
@@ -48,6 +50,11 @@ void	draw_bresenham(float x, float y, float x1, float y1, fdf *data)
 		x += x_step;
 		y += y_step;
 	}
+	x += data->shift_x;
+	x1 += data->shift_x;
+	y += data->shift_y;
+	y1 += data->shift_y;
+	
 }
 
 void	draw(fdf *data)

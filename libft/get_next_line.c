@@ -3,72 +3,104 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sasajj <sasajj@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cspider <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/08 22:04:11 by sasajj            #+#    #+#             */
-/*   Updated: 2019/11/21 21:37:08 by sasajj           ###   ########.fr       */
+/*   Created: 2019/09/06 14:12:55 by cspider           #+#    #+#             */
+/*   Updated: 2019/09/06 16:37:05 by cspider          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static int	append_line(char **new_str, char **line)
+//append every (single) line into our "line"
+static	int	line_append(char **str, char **line)
 {
+	int		length;
 	char	*temp;
-	int		len;
 
-	len = 0;
-	while ((*new_str)[len] != '\n' && (*new_str)[len] != '\0')
-		len++;
-	if ((*new_str)[len] == '\n')
+	length = 0;
+	//count line's length
+	while ((*str)[length] != '\n' && (*str)[length] != '\0')
+		length++;
+	//if last symbol in the line is a "newline"
+	if ((*str)[length] == '\n')
 	{
-		*line = ft_strsub(*new_str, 0, len);
-		temp = ft_strdup(&((*new_str)[len + 1]));
-		free(*new_str);
-		*new_str = temp;
-		if ((*new_str)[0] == '\0')
-			ft_strdel(new_str);
+		//we save the string into line up to the length found
+		*line = ft_strsub(*str, 0, length);
+		//we readjust the stored data (**str)
+		//by creating a temp string that has
+		//the rest data after the "newline"
+		temp = ft_strdup(&((*str)[length + 1]));
+		//free the stored data to update it to
+		//the current address cause we already append
+		//a line from it
+		free(*str);
+		*str = temp;
+		//When we find the end of the file
+		//we free the memory cause it is not needed
+		//anymore
+		if ((*str)[0] == '\0')
+			ft_strdel(str);
 	}
 	else
 	{
-		*line = ft_strdup(*new_str);
-		ft_strdel(new_str);
+		*line = ft_strdup(*str);
+		ft_strdel(str);
 	}
 	return (1);
 }
 
-static int	to_return(char **str, char **line, int answer, int fd)
+static int	get_result(char **str, char **line, int result, int fd)
 {
-	if (answer < 0)
+	if (result < 0)
 		return (-1);
-	else if (answer == 0 && str[fd] == NULL)
+	else if (result == 0 && str[fd] == NULL)
 		return (0);
 	else
-		return (append_line(&str[fd], line));
+		return (line_append(&str[fd], line));
 }
 
+//The function reads a file and returns the line
+//ending with a newline character from a file descriptor
 int			get_next_line(const int fd, char **line)
 {
-	int				answer;
-	static char		*str[FD_SIZE];
-	char			buff[BUFF_SIZE + 1];
-	char			*temp;
+	int			result;
+	//a static variable so that whenever the function is called
+	//it (the variable) would store the result of the previous 
+	//function call
+	static char *str[FD_SIZE];
+	char		buff[BUFF_SIZE + 1];
+	char		*temp;
 
 	if (fd < 0 || line == NULL)
 		return (-1);
-	while ((answer = read(fd, buff, BUFF_SIZE)) > 0)
+	while ((result = read(fd, buff, BUFF_SIZE)) > 0)
 	{
-		buff[answer] = '\0';
+		buff[result] = '\0';
+		//When function is called at first time
+		//we check to see if our (*str) is empty.
+		//If it is we allocate memory for it using our buff string
 		if (str[fd] == NULL)
 			str[fd] = ft_strdup(buff);
 		else
 		{
+			//combine each string with other. 
+			//We using temp because we are only
+			//reading so many bytes at a time
+			//decided by our BUFF_SIZE. If we
+			//read at each iteration without
+			//memory freeing, then we would have
+			//memory leaks. So that we can keep
+			//track of how much is read and delete
+			//the previous stored data.
 			temp = ft_strjoin(str[fd], buff);
 			free(str[fd]);
 			str[fd] = temp;
 		}
+		//When a "newline" is encountered
+		//then loop breaks
 		if (ft_strchr(str[fd], '\n'))
 			break ;
 	}
-	return (to_return(str, line, answer, fd));
+	return (get_result(str, line, result, fd));
 }
