@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cspider <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: sasajj <sasajj@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/06 14:18:39 by cspider           #+#    #+#             */
-/*   Updated: 2019/09/06 15:46:41 by cspider          ###   ########.fr       */
+/*   Updated: 2020/02/22 21:46:02 by sasajj           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,14 @@
 # include <sys/types.h>
 # include <sys/uio.h>
 # include <unistd.h>
-# include "libft/libft.h"
+# include "libft.h"
 
+typedef struct	s_arr
+{
+	int				fd;
+	char			*rest;
+	struct s_arr	*next;
+}				t_arr;
 int		get_next_line(const int fd, char **line);
 
 #endif

@@ -6,38 +6,27 @@
 #    By: sasajj <sasajj@student.21-school.ru>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/17 21:09:54 by sasajj            #+#    #+#              #
-#    Updated: 2020/02/17 21:20:00 by sasajj           ###   ########.fr        #
+#    Updated: 2020/02/22 20:42:01 by sasajj           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME := fdf
-INCLUDES := includes/ 
-CC := gcc
+FRAEMWORKS=-framework OpenGL -framework AppKit
+FLAGS=-Werror -Wextra -Wall
+NAME=fdf
+SRC=src/*.c
+INCLUDES=libft/libft.a minilibx_macos/libmlx.a
 
-SRC_PATH := src/
-FILES := main.c draw.c read_file.c
-SRC := $(patsubst %, $(SRC_PATH)%, $(FILES))
-OBJ := $(patsubst %.c, %.o, $(FILES))
-
-LIB_FLAG := -Llibft -lft
-MLX_FLAGS := -lmlx -framework OpenGL -framework AppKit
-CFLAGS := -Wall -Werror -Wextra
-.PHONY: all clean fclean re
-
-all: $(NAME)
-
-%.o : $(SRC_PATH)%.c includes/fdf.h
-	@$(CC) -c $(CFLAGS) -I$(INCLUDES) $< -o $@
-	@echo $(patsubst src/%.c, %, $<)
-
-$(NAME): $(OBJ)
-	@$(CC) -o $(NAME) $(LIB_FLAG) $(CFLAGS) $(MLX_FLAGS) $(OBJ)
-	@echo "Done"
+all:
+	@make -C libft/ all
+	@make -C minilibx_macos/ all
+	gcc $(SRC) -o $(NAME) $(FLAGS) $(INCLUDES) $(FRAEMWORKS)
 
 clean:
-	rm -f $(OBJ)
+	@make -C libft/ clean
+	@make -C minilibx_macos/ clean
 
 fclean: clean
-	rm -f $(NAME)
+	/bin/rm -f $(NAME)
+	@make -C libft/ fclean
 
-re: fclean $(NAME)
+re: fclean all
