@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sasajj <sasajj@student.21-school.ru>       +#+  +:+       +#+        */
+/*   By: sasajj <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/06 14:12:55 by cspider           #+#    #+#             */
-/*   Updated: 2020/02/22 21:43:55 by sasajj           ###   ########.fr       */
+/*   Created: 2020/02/23 15:34:27 by sasajj            #+#    #+#             */
+/*   Updated: 2020/02/23 15:35:04 by sasajj           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-//append every (single) line into our "line"
 static t_arr	*newlist(const int fd)
 {
 	t_arr	*new;
@@ -89,4 +88,3 @@ int				get_next_line(const int fd, char **line)
 	ret = get_line(fd, line, tmp->rest);
 	return (ret);
 }
-

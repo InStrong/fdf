@@ -58,7 +58,7 @@ void	ft_error(char *message)
 	exit(1);
 }
 
-t_fdf	**memory_allocete(char *file_name)
+t_fdf	**memory_allocate(char *file_name)
 {
 	t_fdf	**new;
 	int		x;
@@ -66,9 +66,10 @@ t_fdf	**memory_allocete(char *file_name)
 	int		fd;
 	char	*line;
 
-	if ((fd = open(file_name, O_RDONLY, 0)) <= 0)
+	if ((fd = open(file_name, O_RDONLY, 0)) < 0)
 		ft_error("file does not exist or you have no rights to read it\n");
-	get_next_line(fd, &line);
+	if (get_next_line(fd, &line) == -1)
+		ft_error("it is a directory\n");
 	x = wordcounter(line, ' ');
 	free(line);
 	y = 0;
@@ -92,7 +93,7 @@ t_fdf	**read_file(char *file_name)
 	int		fd;
 	char	*line;
 
-	matrix_of_dots = memory_allocete(file_name);
+	matrix_of_dots = memory_allocate(file_name);
 	fd = open(file_name, O_RDONLY, 0);
 	y = 0;
 	while (get_next_line(fd, &line) > 0)

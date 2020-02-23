@@ -30,13 +30,13 @@ int		deal_key(int key, t_fdf **data)
 	else if (key == 123)
 		data[0][0].shift_x -= 10;
 	else if (key == 24 || key == 69)
-		data[0][0].zoom += 1;
+		data[0][0].zoom += 4;
 	else if (key == 84 || key == 19)
-		data[0][0].z_zoom -= 1;
+		data[0][0].z_zoom -= 4;
 	else if (key == 91 || key == 28)
-		data[0][0].z_zoom += 1;
+		data[0][0].z_zoom += 4;
 	else if (key == 27 || key == 78)
-		data[0][0].zoom -= 1;
+		data[0][0].zoom -= 4;
 	else if (key == 49 || key == 87 || key == 23)
 		data[0][0].is_isometric = (data[0][0].is_isometric) ? 0 : 1;
 	if (key == '5')
@@ -52,7 +52,7 @@ void	set_default(t_fdf *param)
 	param->zoom = 20;
 	param->z_zoom = 1;
 	param->is_isometric = 1;
-	param->angle = 0.523599;
+	param->angle = 0.923599;
 	param->win_x = 2000;
 	param->win_y = 1000;
 	param->shift_x = param->win_x / 3;
@@ -72,6 +72,8 @@ int		main(int argc, char **argv)
 		return (0);
 	}
 	data = read_file(*++argv);
+	if (&data[0][0] == NULL)
+		ft_error("file is empty");
 	set_default(&data[0][0]);
 	draw(data);
 	mlx_key_hook(data[0][0].win_ptr, deal_key, data);

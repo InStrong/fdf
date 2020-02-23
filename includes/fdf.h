@@ -46,5 +46,6 @@ int			get_dots_from_line(char *line, t_fdf **matrix_of_dots, int y);
 void		print_menu(t_fdf *data);
 void		isometric(t_fdf *dot, double angle);
 void		set_param(t_fdf *a, t_fdf *b, t_fdf *param);
+void		ft_error(char *message);
 
 #endif
