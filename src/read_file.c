@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   read_file.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sasajj <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/02/23 14:04:58 by sasajj            #+#    #+#             */
+/*   Updated: 2020/02/23 14:04:59 by sasajj           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/fdf.h"
 
 int		wordcounter(char const *str, char c)
@@ -19,7 +31,7 @@ int		wordcounter(char const *str, char c)
 	return (words);
 }
 
-int		get_dots_from_line(char *line, fdf **matrix_of_dots, int y)
+int		get_dots_from_line(char *line, t_fdf **matrix_of_dots, int y)
 {
 	char	**dots;
 	int		x;
@@ -40,16 +52,22 @@ int		get_dots_from_line(char *line, fdf **matrix_of_dots, int y)
 	return (x);
 }
 
-fdf	**memory_allocete(char *file_name)
+void	ft_error(char *message)
 {
-	fdf	**new;
+	ft_putstr(message);
+	exit(1);
+}
+
+t_fdf	**memory_allocete(char *file_name)
+{
+	t_fdf	**new;
 	int		x;
 	int		y;
 	int		fd;
 	char	*line;
 
 	if ((fd = open(file_name, O_RDONLY, 0)) <= 0)
-		exit(1);
+		ft_error("file does not exist or you have no rights to read it\n");
 	get_next_line(fd, &line);
 	x = wordcounter(line, ' ');
 	free(line);
@@ -60,16 +78,16 @@ fdf	**memory_allocete(char *file_name)
 		free(line);
 	}
 	free(line);
-	new = (fdf **)malloc(sizeof(fdf *) * (++y + 1));
+	new = (t_fdf **)malloc(sizeof(t_fdf *) * (++y + 1));
 	while (y > 0)
-		new[--y] = (fdf *)malloc(sizeof(fdf) * (x + 1));
+		new[--y] = (t_fdf *)malloc(sizeof(t_fdf) * (x + 1));
 	close(fd);
 	return (new);
 }
 
-fdf	**read_file(char *file_name)
+t_fdf	**read_file(char *file_name)
 {
-	fdf	**matrix_of_dots;
+	t_fdf	**matrix_of_dots;
 	int		y;
 	int		fd;
 	char	*line;

@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   iso.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sasajj <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/02/23 13:28:27 by sasajj            #+#    #+#             */
+/*   Updated: 2020/02/23 13:28:28 by sasajj           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/fdf.h"
 
-void	isometric(fdf *dot, double angle)
+void	isometric(t_fdf *dot, double angle)
 {
 	dot->x = (dot->x - dot->y) * cos(angle);
 	dot->y = (dot->x + dot->y) * sin(angle) - dot->z;

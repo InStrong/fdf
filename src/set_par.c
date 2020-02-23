@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   set_par.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sasajj <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/02/23 13:28:16 by sasajj            #+#    #+#             */
+/*   Updated: 2020/02/23 13:28:17 by sasajj           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/fdf.h"
 
-void	zoom(fdf *a, fdf *b, fdf *param)
+void	zoom(t_fdf *a, t_fdf *b, t_fdf *param)
 {
 	a->x *= param->zoom;
 	a->y *= param->zoom;
@@ -10,7 +22,7 @@ void	zoom(fdf *a, fdf *b, fdf *param)
 	b->z *= param->z_zoom;
 }
 
-void	set_param(fdf *a, fdf *b, fdf *param)
+void	set_param(t_fdf *a, t_fdf *b, t_fdf *param)
 {
 	zoom(a, b, param);
 	if (param->is_isometric)

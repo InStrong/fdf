@@ -1,53 +1,53 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   draw.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sasajj <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/02/23 13:53:45 by sasajj            #+#    #+#             */
+/*   Updated: 2020/02/23 13:53:46 by sasajj           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/fdf.h"
-#include <math.h>
-#include <stdio.h>
 
-#define MAX(a,b) (a > b ? a : b)
-#define ABS(a) (a < 0 ? -a : a)
-
-// void	isometric(float *x, float *y, int z)
-// {
-// 	*x = (*x - *y) * cos(0.8);
-// 	*y = (*x + *y) * sin(0.8) - z;
-// }
-
-void	draw_bresenham(fdf a, fdf b, fdf *data)
+float	ft_module(float x)
 {
-	float x_step;
-	float y_step;
-	float max;
-	
-	// data->z = data->z_matrix[(int)data->y][(int)data->x];
-	// data->z1 = data->z_matrix[(int)y1][(int)x1];
+	return (x < 0) ? -x : x;
+}
 
-	// // zoom
-	// data->x *= data->zoom;
-	// data->x1 *= data->zoom;
-	// data->y *= data->zoom;
-	// data->y1 *= data->zoom;
-	// //color 
-	// data->color = (data->z || data->z1) ? 0xe80c0c : 0xffffff;
-	//isometric
-	// isometric(&x, &y, z);
-	// isometric(&x1, &y1, z1);
-	//shift
+float	ft_max(float x, float y)
+{
+	return (x < y) ? y : x;
+}
+
+void	draw_bresenham(t_fdf a, t_fdf b, t_fdf *data)
+{
+	float	x_step;
+	float	y_step;
+	float	max;
+	int		color;
+
 	set_param(&a, &b, data);
 	x_step = b.x - a.x;
 	y_step = b.y - a.y;
-	max = MAX(ABS(x_step),ABS(y_step));
+	max = ft_max(ft_module(x_step), ft_module(y_step));
 	x_step /= max;
 	y_step /= max;
+	color = (b.z || a.z) ? 0x3ADF00 : 0xBBFAFF;
+	color = (b.z != a.z) ? 0x21610B : color;
 	while ((int)(a.x - b.x) || (int)(a.y - b.y))
 	{
-		mlx_pixel_put(data->mlx_ptr, data->win_ptr, a.x, a.y, 0xBBFAFF);
+		mlx_pixel_put(data->mlx_ptr, data->win_ptr, a.x, a.y, color);
 		a.x += x_step;
 		a.y += y_step;
 		if (a.y < 0 || a.x < 0)
 			break ;
-	}	
+	}
 }
 
-void	draw(fdf **data)
+void	draw(t_fdf **data)
 {
 	int		y;
 	int		x;
